@@ -51,15 +51,7 @@ class ExampleActivity extends Activity {
 Download
 --------
 
-Download [the latest JAR][1] or grab via Maven:
-```xml
-<dependency>
-  <groupId>com.martellux</groupId>
-  <artifactId>lifecycle</artifactId>
-  <version>0.1.0</version>
-</dependency>
-```
-or Gradle:
+Gradle (jCenter):
 ```groovy
 compile 'com.martellux:lifecycle:0.1.0'
 ```
