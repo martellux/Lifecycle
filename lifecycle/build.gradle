@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'Lifecycle'
+    bintrayName = 'lifecycle'
     publishedGroupId = 'com.martellux'
     libraryName = 'lifecycle'
     artifact = 'lifecycle'
