@@ -11,8 +11,8 @@ As Android developer, you often have to face the problem of managing lifecycles 
 
 ...
    /**
-     * The third-party library doing async operation on worker thread
-     */
+    * The third-party library doing async operation on worker thread
+    */
     ThirdPartyWorkerThread workerThread;
    
     /**
@@ -31,8 +31,8 @@ As Android developer, you often have to face the problem of managing lifecycles 
     }
     
     /**
-      * Standard task execution without Lifecycle hook
-      */
+     * Standard task execution without Lifecycle hook
+     */
     private void executeTaskWithLifecycle() {
        workerThread.execute(Lifecycle.hook(this, new ThirdPartyCallback() {
             
