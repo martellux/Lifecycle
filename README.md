@@ -8,9 +8,9 @@ A binder which let you manage async operations against Android components lifecy
 As Android developer, you often have to face the problem of managing lifecycles of differents components. The most common case is when a third-party library executes a long running operation off the UI-Thread and the user rotates the device causing your Activity or Fragment to be destroyed and recreated. This situation causes the third-party response to be lost because the caller referes to the destroyed Activity of Fragment. Using Lifecycle avoids to lose the control over the long running operation and offers to your app a seamless execution over Android components lifecycles.
 
 ```java
-class ExampleActivity extends Activity {
-    
-    /**
+
+...
+   /**
      * The third-party library doing async operation on worker thread
      */
     ThirdPartyWorkerThread workerThread;
@@ -44,7 +44,74 @@ class ExampleActivity extends Activity {
             }
         }));
     }
+...
 
+/**
+ * Activity example
+ */
+class ExampleActivity extends Activity {
+    
+    /**
+     * Bind Lifecycle
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Lifecycle.bind(this);
+    }
+    
+    /**
+     * Example. Running df.show(...) afetr Activity's onSaveInstanceState causes IllegaleStateException to be thrown.
+     * Using DONT_DELIVER_ON_SAVED_INSTANCE execution mode avoids it. The execution of method doSomethindA is enqueued until
+     * the Activity marks its instance state as restored.
+     */
+    public void runExample(View view) {
+        ThirdPartyLibrary2 runnable1 = new ThirdPartyLibrary2(Lifecycle.hook(this, new MyInterface2() {
+            @Override
+            public void doSomethingA() {
+                ((TextView) findViewById(R.id.textView1)).setText(...);
+                
+                DialogFragment df = DialogFragment.newInstance();
+                df.show(getFragmentManager(), TAG);
+            }
+
+            @Override
+            public void doSomethingB(String s) {
+                ((TextView) findViewById(R.id.textView2)).setText(...);
+            }
+
+        }, new Handler(), Lifecycle.Delivery.DONT_DELIVER_ON_SAVED_INSTANCE));
+
+        new Thread(runnable1).start();
+    }
+
+    /**
+     * Mark instance state as restored, if delivery execution mode is DONT_DELIVER_ON_SAVED_INSTANCE
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Lifecycle.restoredInstanceState(this);
+    }
+
+    /**
+     * Mark instance state as saved, if delivery execution mode is DONT_DELIVER_ON_SAVED_INSTANCE
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Lifecycle.savedInstanceState(this);
+    }
+
+    /**
+     * Unbind Lifecycle
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Lifecycle.unbind(this);
+    }
 }
 ```
 
@@ -53,7 +120,7 @@ Download
 
 Gradle (jCenter):
 ```groovy
-compile 'com.martellux:lifecycle:0.1.0'
+compile 'com.martellux:lifecycle:0.2.0'
 ```
 
 License
