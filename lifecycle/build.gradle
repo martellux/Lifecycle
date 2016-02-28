@@ -9,7 +9,7 @@ ext {
     libraryDescription = 'A binder which let you manage async operations easily against Android components lifecycle'
     siteUrl = 'https://github.com/martellux/Lifecycle'
     gitUrl = 'https://github.com/martellux/Lifecycle.git'
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.2.0'
     developerId = 'martellux'
     developerName = 'Alessandro Martellucci'
     developerEmail = 'alex.martellucci@gmail.com'
