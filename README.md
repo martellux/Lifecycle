@@ -67,9 +67,9 @@ class ExampleActivity extends Activity {
      * the Activity marks its instance state as restored.
      */
     public void runExample(View view) {
-        ThirdPartyLibrary2 runnable1 = new ThirdPartyLibrary2(Lifecycle.hook(this, new MyInterface2() {
+        ThirdPartyLibrary runnable = new ThirdPartyLibrary(Lifecycle.hook(this, new ThirdPartyCallback() {
             @Override
-            public void doSomethingA() {
+            public void doFoo() {
                 ((TextView) findViewById(R.id.textView1)).setText(...);
                 
                 DialogFragment df = DialogFragment.newInstance();
@@ -77,13 +77,13 @@ class ExampleActivity extends Activity {
             }
 
             @Override
-            public void doSomethingB(String s) {
+            public void doBar(String s) {
                 ((TextView) findViewById(R.id.textView2)).setText(...);
             }
 
         }, new Handler(), Lifecycle.Delivery.DONT_DELIVER_ON_SAVED_INSTANCE));
 
-        new Thread(runnable1).start();
+        new Thread(runnable).start();
     }
 
     /**
