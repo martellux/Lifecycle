@@ -63,7 +63,7 @@ class ExampleActivity extends Activity {
     
     /**
      * Example. Running df.show(...) afetr Activity's onSaveInstanceState causes IllegaleStateException to be thrown.
-     * Using DONT_DELIVER_ON_SAVED_INSTANCE execution mode avoids it. The execution of method doSomethindA is enqueued until
+     * Using DONT_DELIVER_ON_SAVED_INSTANCE execution mode avoids it. The execution of method doFoo or doBar is enqueued until
      * the Activity marks its instance state as restored.
      */
     public void runExample(View view) {
