@@ -54,11 +54,11 @@ class ExampleActivity extends Activity {
     /**
      * Bind Lifecycle
      */
+    @LifecycleBinder
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Lifecycle.bind(this);
     }
     
     /**
@@ -89,28 +89,28 @@ class ExampleActivity extends Activity {
     /**
      * Mark instance state as restored, if delivery execution mode is DONT_DELIVER_ON_SAVED_INSTANCE
      */
+    @LifecycleBinder
     @Override
     protected void onStart() {
         super.onStart();
-        Lifecycle.restoredInstanceState(this);
     }
 
     /**
      * Mark instance state as saved, if delivery execution mode is DONT_DELIVER_ON_SAVED_INSTANCE
      */
+    @LifecycleBinder     
     @Override
     protected void onStop() {
         super.onStop();
-        Lifecycle.savedInstanceState(this);
     }
 
     /**
      * Unbind Lifecycle
      */
+    @LifecycleBinder
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Lifecycle.unbind(this);
     }
 }
 ```
@@ -120,7 +120,7 @@ Download
 
 Gradle (jCenter):
 ```groovy
-compile 'com.martellux:lifecycle:0.2.0'
+compile 'com.martellux:lifecycle:0.3.0'
 ```
 
 License
