@@ -8,14 +8,39 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.martellux.lifecycle.Lifecycle;
+import com.martellux.lifecycle.annotation.LifecycleBinder;
 
 public class MainActivity extends AppCompatActivity {
 
+    @LifecycleBinder
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Lifecycle.bind(this);
+
+        if(savedInstanceState == null) {
+            MainFragment f = new MainFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_main, f).commit();
+        }
+    }
+
+    @LifecycleBinder
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+
+    @LifecycleBinder
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @LifecycleBinder
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void doTest(View view) {
@@ -32,32 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.textView2)).setText("DONE B " + s);
             }
 
-        }, new Handler(), Lifecycle.Delivery.DONT_DELIVER_ON_SAVED_INSTANCE));
+        }, new Handler(), Lifecycle.Delivery.DEFAULT));
 
         new Thread(runnable1).start();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Lifecycle.restoredInstanceState(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Lifecycle.savedInstanceState(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Lifecycle.unbind(this);
-    }
-
-    public interface MyInterface2 {
-        public void doSomethingA();
-        public void doSomethingB(String s);
     }
 
 }
