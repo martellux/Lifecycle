@@ -4,6 +4,7 @@ import android.os.Handler;
 
 /**
  * Created by alessandromartellucci on 23/01/16.
+ *
  */
 public final class Lifecycle {
 
@@ -31,7 +32,9 @@ public final class Lifecycle {
      * Adds caller object to map
      *
      * @param caller
+     * @deprecated in version 0.3.0. Use @annotation LifecycleBinder
      */
+    @Deprecated
     public static void bind(Object caller) {
         CallbackProxyManager.bind(caller);
     }
@@ -41,7 +44,9 @@ public final class Lifecycle {
      *
      * @param caller
      * @param restoredInstanceState
+     * @deprecated in version 0.3.0. Use @annotation LifecycleBinder
      */
+    @Deprecated
     public static void bind(Object caller, boolean restoredInstanceState) {
         CallbackProxyManager.bind(caller, restoredInstanceState);
     }
@@ -83,7 +88,9 @@ public final class Lifecycle {
     /**
      * Marks the caller's instance state as saved
      * @param caller
+     * @deprecated in version 0.3.0. Use @annotation LifecycleBinder
      */
+    @Deprecated
     public static void restoredInstanceState(Object caller) {
         CallbackProxyManager.restoredInstanceState(caller);
     }
@@ -91,7 +98,9 @@ public final class Lifecycle {
     /**
      * Marks the caller's instance state as restored
      * @param caller
+     * @deprecated in version 0.3.0. Use @annotation LifecycleBinder
      */
+    @Deprecated
     public static void savedInstanceState(Object caller) {
         CallbackProxyManager.savedInstanceState(caller);
     }
@@ -108,7 +117,9 @@ public final class Lifecycle {
      * Removes both caller and callback object
      *
      * @param caller
+     * @deprecated in version 0.3.0. Use @annotation LifecycleBinder
      */
+    @Deprecated
     public static void unbind(Object caller) {
         CallbackProxyManager.unbind(caller);
     }
