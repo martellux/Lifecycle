@@ -5,9 +5,9 @@ package com.martellux.lifecycle.sample;
  */
 public class ThirdPartyLibrary2 implements Runnable {
 
-    private MainActivity.MyInterface2 myInterface;
+    private MyInterface2 myInterface;
 
-    public ThirdPartyLibrary2(MainActivity.MyInterface2 myInterface) {
+    public ThirdPartyLibrary2(MyInterface2 myInterface) {
         this.myInterface = myInterface;
     }
 
