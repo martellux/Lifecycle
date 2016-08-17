@@ -1,3 +1,18 @@
+import com.android.build.gradle.LibraryPlugin
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.3'
+        classpath 'org.aspectj:aspectjtools:1.8.1'
+    }
+}
+
 apply plugin: 'com.android.library'
 
 ext {
@@ -9,7 +24,7 @@ ext {
     libraryDescription = 'A binder which let you manage async operations easily against Android components lifecycle'
     siteUrl = 'https://github.com/martellux/Lifecycle'
     gitUrl = 'https://github.com/martellux/Lifecycle.git'
-    libraryVersion = '0.2.0'
+    libraryVersion = '0.3.0'
     developerId = 'martellux'
     developerName = 'Alessandro Martellucci'
     developerEmail = 'alex.martellucci@gmail.com'
@@ -39,7 +54,44 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    compile 'org.aspectj:aspectjrt:1.8.6'
 }
 
 apply from: 'https://raw.githubusercontent.com/martellux/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/martellux/JCenter/master/bintrayv1.gradle'
+
+android.libraryVariants.all { variant ->
+    LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
+    JavaCompile javaCompile = variant.javaCompile
+    javaCompile.doLast {
+        String[] args = ["-showWeaveInfo",
+                         "-1.5",
+                         "-inpath", javaCompile.destinationDir.toString(),
+                         "-aspectpath", javaCompile.classpath.asPath,
+                         "-d", javaCompile.destinationDir.toString(),
+                         "-classpath", javaCompile.classpath.asPath,
+                         "-bootclasspath", plugin.project.android.bootClasspath.join(
+                File.pathSeparator)]
+
+        MessageHandler handler = new MessageHandler(true);
+        new Main().run(args, handler)
+
+        def log = project.logger
+        for (IMessage message : handler.getMessages(null, true)) {
+            switch (message.getKind()) {
+                case IMessage.ABORT:
+                case IMessage.ERROR:
+                case IMessage.FAIL:
+                    log.error message.message, message.thrown
+                    break;
+                case IMessage.WARNING:
+                case IMessage.INFO:
+                    log.info message.message, message.thrown
+                    break;
+                case IMessage.DEBUG:
+                    log.debug message.message, message.thrown
+                    break;
+            }
+        }
+    }
+}
